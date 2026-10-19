@@ -1,9 +1,9 @@
 # Benchmark results
 
-The tables below compare tsrs, TypeScript 7 (tsgo) and `bun check` on seventeen projects. CI updates them on each
-benchmark publish. The default-settings table runs each compiler at its own checker count (tsgo 4, tsrs up to one per
+The tables below are a historical snapshot comparing tsrs, TypeScript 7 (tsgo) and `bun check` on seventeen projects.
+Benchmark CI is disabled. The default-settings table runs each compiler at its own checker count (tsgo 4, tsrs up to one per
 core); the `--checkers` 4, 8 and 16 tables run both at the same count. See [the methodology](README.md) for
-the commands, pinned projects, hardware and measurement details, and [all recorded runs](results/) for other thread
+the commands, pinned projects, hardware and measurement details, and [archived runs](https://github.com/oxc-project/tsrs/tree/94e7305f0f067e9f68570798c0498e03c7e423eb/bench/results) for other thread
 counts and instruction counts.
 
 <!-- bench:start -->
@@ -247,22 +247,23 @@ Rows are sorted by speedup over tsgo. Wall time is the process's wall clock; pea
 
 Shared CI machines vary by a few percent between runs of the same code; the single-threaded instruction counts in `bench/results/` are the exact measure. Date: 2026-10-16 11:53 UTC. tsrs commit: `d57703ab5f07`. Method: [benchmark methodology](https://github.com/oxc-project/tsrs/blob/main/bench/README.md).
 
-[All modes](results/2026-10-16-d57703ab5f07.md) · [Raw measurements](results/2026-10-16-d57703ab5f07.json)
+[All modes](https://github.com/oxc-project/tsrs/blob/94e7305f0f067e9f68570798c0498e03c7e423eb/bench/results/2026-10-16-d57703ab5f07.md) · [Raw measurements](https://github.com/oxc-project/tsrs/blob/94e7305f0f067e9f68570798c0498e03c7e423eb/bench/results/2026-10-16-d57703ab5f07.json)
 <!-- bench:end -->
 
 ## README chart
 
-The [chart](large-projects.svg) plots TypeScript 7 against tsrs on VS Code, T3 Code and MUI docs from the latest
-`--checkers` 4, 8 and 16 results above, both compilers at the same count on the 16-vCPU machine. Each project is a line
-through a point per thread count: up is TypeScript 7's wall time over tsrs's, right is its peak memory over tsrs's,
-and both axes start at 1x, the same as TypeScript 7. CI redraws it with the summary tables. Ratios use unrounded
-medians. The SVG description lists the times and memory behind every point; its metadata records the measured commit,
+The [chart](large-projects.svg) plots tsgo against tsrs on vscode, mui-docs, t3code-server, supabase
+(`supabase-studio`), playwright, typeorm and date-fns from the latest `--checkers` 1, 2, 4 and 8 results above, both
+compilers at the same count on the same 8-vCPU machine. Each project is a line through a point per checker count: right is
+tsgo's wall time over tsrs's, up is its peak memory over tsrs's, both on linear axes from 0. The title names the timed
+tsgo (`TypeScript 7.1 nightly` for a `7.1.0-dev` build) and the footer gives its exact version. CI redraws it
+with the summary tables. Ratios use unrounded medians. The SVG description lists the times and memory behind every point; its metadata records the measured commit,
 date and modes.
 
 ## Historical comparison on 64 vCPUs
 
 On 2026-10-07, type-checking vscode (10,427 files) on a 64-core Linux machine, each tool with its default settings, averaged over 20
-runs ([source](results/compare/2026-10-07-ae33f10b1b8b-64t.md)):
+runs ([source](https://github.com/oxc-project/tsrs/blob/94e7305f0f067e9f68570798c0498e03c7e423eb/bench/results/compare/2026-10-07-ae33f10b1b8b-64t.md)):
 
 | | time | peak memory |
 | --- | ---: | ---: |

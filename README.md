@@ -14,6 +14,7 @@ pnpm exec tsrs --noEmit
 ```
 
 You can try `tsrs` today and give us feedback on performance, memory usage, and conformance.
+Try checking and emitting code in the [browser playground](https://tsrs-playground.void.app).
 
 ## Conformance
 
@@ -33,7 +34,7 @@ for supported features and known gaps.
   <picture>
     <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/oxc-project/tsrs/main/bench/large-projects-dark.svg">
     <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/oxc-project/tsrs/main/bench/large-projects.svg">
-    <img alt="Performance" src="https://raw.githubusercontent.com/oxc-project/tsrs/main/bench/large-projects.svg">
+    <img alt="tsrs vs the TypeScript nightly: times faster against times less peak memory on seven projects at 1, 2, 4 and 8 parallel checker threads" src="https://raw.githubusercontent.com/oxc-project/tsrs/main/bench/large-projects.svg">
   </picture>
 </a>
 
@@ -54,7 +55,8 @@ targeting `wasm32-wasip1` (WASI Preview 1).
 
 ## Contributing
 
-Issues and pull requests are currently disabled until we have the bandwidth to triage them.
+The [issue tracker](https://github.com/oxc-project/tsrs/issues) is open for bug reports. Please include a minimal reproduction.
+Pull requests remain closed because we don't have the bandwidth to review them.
 
 See the [contributing guide](https://github.com/oxc-project/tsrs/blob/main/CONTRIBUTING.md)
 for building from source and running the suites, the [Code of Conduct](https://github.com/oxc-project/tsrs/blob/main/CODE_OF_CONDUCT.md), and

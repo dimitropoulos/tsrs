@@ -5,6 +5,43 @@ change are identified separately from measurements of the packaged release. For 
 see the [compatibility table](COMPATIBILITY.md); detailed investigations are indexed in the
 [engineering notes](../notes/README.md). The early development log follows the release entries.
 
+## 2026-10-19: 0.18.0 release
+
+All seven packages use `0.18.0-ts7.1.0-dev.20260929`. The TypeScript pin remains `b85298b6a81f`; release binaries
+report the matching nightly `7.1.0-dev.20260930.4`.
+
+Release publishing allows 30 minutes for each package to become available on npm and 90 minutes for the publish
+job. Re-runs skip versions npm reports as already staged or published, even when they are not yet visible to
+registry queries; metadata, tarballs and `latest` tags must still become available before the release completes
+(#615). Compiler behavior, supported platforms and the recorded conformance results are unchanged from 0.17.0.
+
+The workflow publishes the [GitHub release notes](releases/0.18.0.md) under the title `0.18.0`.
+Bumping the root `package.json` version on `main` triggers publishing.
+
+## 2026-10-19: 0.17.0 release
+
+All seven packages use `0.17.0-ts7.1.0-dev.20260929`. The TypeScript pin remains `b85298b6a81f`; release binaries
+report the matching nightly `7.1.0-dev.20260930.4`.
+
+`tsrs -b` frees each project's program after building it, fixing arena exhaustion on large project graphs (#607).
+The same change fixes a use-after-free in incremental builds and build watch mode. The
+[change's measurements](../notes/mem-build-free-programs.md) show a synthetic 7,500-project graph completing at
+4.8 GB peak RSS with `--builders 64 --checkers 1`, where the previous code exhausted the arena range.
+These are measurements of that change, not a packaged-release comparison.
+
+Native npm binaries omit duplicate embedded TypeScript libraries and use the copies shipped beside the executable
+(#578). Compiler maintenance removes dormant instrumentation, collects diagnostic timings only when requested,
+uses compact generated Unicode casing tables and shares compiler-option change traversal (#584, #585, #590,
+#592, #602, #610). Native binaries using mimalloc share the CLI's allocator policy (#612).
+
+CI and release validation now use the pinned upstream Go fourslash harness against the Rust server (#594).
+The [recorded harness validation](../tools/go-fourslash/README.md#validation-2026-10-18) has 4,074 passing groups
+and 472 skips, including all 4,066 passes from the former translated suite; eight additional groups use Go-built
+fixtures. The browser playground deploys after successful releases (#526, #587).
+
+The workflow publishes the [GitHub release notes](releases/0.17.0.md) under the title `0.17.0`, without a prefix.
+Bumping the root `package.json` version on `main` triggers publishing.
+
 ## 2026-10-16: 0.16.0 release
 
 All seven packages use `0.16.0-ts7.1.0-dev.20260929`. The TypeScript pin remains `b85298b6a81f`; release binaries
@@ -505,8 +542,8 @@ Memory: compressed 32-bit pointers on unix and scoped arenas (perf round 2, #37-
 -26 to -36%, page faults 0.9M -> 30K), and the checker-heap stack (#99, #105-#110: lazy member tables in the arena
 with one-word slices, CacheHashKey caches in a 20-byte PackedMap, a string literal cache without key copies, flat
 export indexes, 16-bit link store slot offsets): peak -3.3% / -6.4% at 1 / 8 checkers on the 38k-file codebase with
-instructions flat (-0.004% with PGO). `TSRS_HEAP_CENSUS=1` with `--extendedDiagnostics` prints what each checker
-owns; the heap sampler symbolizes on Linux. The emit print backlog is bounded at 2,048 files.
+instructions flat (-0.004% with PGO). The now-removed `TSRS_HEAP_CENSUS=1` instrumentation measured what each
+checker owned; the heap sampler symbolized on Linux. The emit print backlog is bounded at 2,048 files.
 
 Safety and build: a panic=abort crash in the arena is fixed (#103; a freed `&[T]` parameter let LLVM drop the
 free-list link) and guarded by a source check, Miri tests and an arena-safety CI job (#104, leak checking off because
@@ -735,7 +772,7 @@ The private monorepo (go -> locality, same commit 52ef5a9, medians of 3): 4 chec
 -4% to -13% peak, faster at every count; 3 checkers with locality beat Go's 4 on both axes) in the notes.
 Single-threaded unchanged (no assignment with one checker). Of the remaining multi-checker excess, most is library instantiations (zod,
 MikroORM, lib) that every checker needs. Measurements, duplication breakdown, instrumentation
-(`TSRS_ASSIGNMENT_STATS`, feature `tsrs_checker/assignment-stats`): `notes/mem-assignment.md`.
+(the now-removed `TSRS_ASSIGNMENT_STATS` instrumentation): `notes/mem-assignment.md`.
 
 ## 2026-10-01: data-layout pass (peak memory)
 
